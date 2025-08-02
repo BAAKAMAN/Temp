@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <section class="card">
+            <h2>Students</h2>
+            <ul>
+                {% for student in students %}
+                    <li>{{ student.id }}: {{ student.name }} (Grade {{ student.grade }}, Style: {{ student.learning_style }})</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>Learning Content</h2>
+            <ul>
+                {% for item in content %}
+                    <li>{{ item.id }}: {{ item.title }} (Topic: {{ item.topic }}, Difficulty: {{ item.difficulty }}, Type: {{ item.type }})</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <p><a href="/">Back to Home</a></p>
+    </div>
+</body>
+</html>

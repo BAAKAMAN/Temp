@@ -1,0 +1,9 @@
+Flask
+scikit-learn==1.3.0
+joblib
+google-generativeai~=0.3.0 # Add this line
+dotenv
+# torch
+# transformers
+# numpy
+# pandas

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - {{ student.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ student.name }}! (Grade: {{ student.grade }})</h1>
+        <p>Learning Style: {{ student.learning_style }}</p>
+        <p>Last Login: {{ student.last_login }}</p>
+
+        <section class="card">
+            <h2>Learning Gap Prediction</h2>
+            <p>Based on your progress, our AI predicts: <strong>{{ learning_gap_prediction }}</strong> in certain areas.</p>
+            <p><em>(Note: This is a simplified prediction for the demo.)</em></p>
+        </section>
+
+        <section class="card">
+            <h2>Recommended Content</h2>
+            {% if recommended_content %}
+                <ul>
+                    {% for content_title in recommended_content %}
+                        <li>{{ content_title }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No specific recommendations at the moment.</p>
+            {% endif %}
+            <p><em>(Recommendations are personalized based on your activity.)</em></p>
+        </section>
+
+        <section class="card">
+            <h2>Your Recent Activity</h2>
+            {% if recent_interactions %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Content</th>
+                            <th>Topic</th>
+                            <th>Type</th>
+                            <th>Score</th>
+                            <th>Time Spent</th>
+                            <th>Completed</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for interaction in recent_interactions %}
+                            <tr>
+                                <td>{{ interaction.title }}</td>
+                                <td>{{ interaction.topic }}</td>
+                                <td>{{ interaction.type }}</td>
+                                <td>{% if interaction.score is not none %}{{ interaction.score }}{% else %}N/A{% endif %}</td>
+                                <td>{{ interaction.time_spent_seconds }}s</td>
+                                <td>{% if interaction.completed %}Yes{% else %}No{% endif %}</td>
+                                <td>{{ interaction.timestamp }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No recent interactions logged.</p>
+            {% endif %}
+        </section>
+
+        <section class="card">
+            <h2>Log a New Interaction (Demo)</h2>
+            <form id="logInteractionForm">
+                <input type="hidden" id="studentId" value="{{ student.id }}">
+                <label for="contentSelect">Select Content:</label>
+                <select id="contentSelect" name="content_id">
+                    {% for c in g.get('_database').execute('SELECT id, title FROM content').fetchall() %}
+                        <option value="{{ c.id }}">{{ c.title }}</option>
+                    {% endfor %}
+                </select><br><br>
+                <label for="score">Score (for quizzes):</label>
+                <input type="number" id="score" name="score" min="0" max="100"><br><br>
+                <label for="timeSpent">Time Spent (seconds):</label>
+                <input type="number" id="timeSpent" name="time_spent_seconds" min="0"><br><br>
+                <label for="completed">Completed:</label>
+                <input type="checkbox" id="completed" name="completed" value="true"><br><br>
+                <button type="submit">Log Interaction</button>
+                <p id="logMessage" style="color: green;"></p>
+            </form>
+        </section>
+
+        <p><a href="/">Back to Home</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Learning Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Adaptive Learning Platform</h1>
+        <p>Personalized learning tailored for you.</p>
+        <div class="links">
+            <a href="/login">Login Page</a>
+            <a href="/chatbot">Try the Chatbot</a>
+        </div>
+        <p class="note">**Note:** For this hackathon demo, student IDs are hardcoded. In a real application, you'd have a login system.</p>
+        <p class="note">**To re-initialize database:** Run `flask initdb` in your terminal.</p>
+    </div>
+</body>
+</html>

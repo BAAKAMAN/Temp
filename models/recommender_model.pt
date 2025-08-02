@@ -1,0 +1,39 @@
+# train_recommender_model.py (simplified concept)
+import joblib
+# Assume you've trained a recommender model using Surprise, or a custom one
+# from surprise import SVD
+# from surprise import Dataset, Reader
+# from surprise.model_selection import train_test_split
+
+# reader = Reader(rating_scale=(1, 5))
+# data = Dataset.load_from_df(df[['user_id', 'item_id', 'rating']], reader)
+# trainset, testset = train_test_split(data, test_size=0.2)
+# recommender_algo = SVD()
+# recommender_algo.fit(trainset)
+
+# For a hackathon, this might even be a custom logic object that has a 'recommend' method
+class SimpleItemBasedRecommender:
+    def __init__(self, content_data):
+        self.content_data = content_data # A dictionary of topic: [items]
+
+    def predict(self, student_id, completed_topics, current_topic):
+        recommendations = []
+        # Simple rule: if student completed 'Mathematics', recommend 'Advanced Math'
+        if 'Mathematics' in completed_topics:
+            recommendations.append("Advanced Math Concepts")
+        # Also recommend based on current topic
+        if current_topic in self.content_data:
+            recommendations.extend(self.content_data[current_topic])
+        return list(set(recommendations)) # Remove duplicates
+
+# Example:
+dummy_content_data = {
+    'Mathematics': ['Algebra Problems', 'Geometry Basics'],
+    'History': ['Indian Freedom Struggle', 'World Wars']
+}
+recommender_instance = SimpleItemBasedRecommender(dummy_content_data)
+
+
+model_filename = '../adaptive_learning_app/models/recommender_model.pkl' # Use .pkl for joblib
+joblib.dump(recommender_instance, model_filename)
+print(f"Recommender model saved to {model_filename}")
